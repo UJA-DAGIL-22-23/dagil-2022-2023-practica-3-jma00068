@@ -1,4 +1,22 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=10405505&assignment_repo_type=AssignmentRepo)
+
+# Práctica 3
+
+Captura de pantalla del home de Fauna:
+![](./capturas/home_fauna.png)
+
+Captura de pantalla de la base de datos de Fauna:
+![](./capturas/baseDatos_fauna.png)
+
+Captura de pantalla de la colección creada en Fauna:
+![](./capturas/coleccion_fauna.png)
+
+### Realizado por Jesús Manzano Álvarez
+Estudiante de Informática de la Universidad de Jaén, de la asignatura Desarrollo Ágil.
+* **Correo**: jma00068@red.ujaen.es
+* **GitHub**: https://github.com/jma00068/
+* **Trello**: https://trello.com/jesusmanzanoalvarez
+
 # *Plantilla Práctica Microservicios*: descripción de la aplicación
 
 Este código que se presenta aquí corresponde a la plantilla para realizar un desarrollo basado en microservicios para las prácticas de Desarrollo Ágil, para el curso 2022-2023.
