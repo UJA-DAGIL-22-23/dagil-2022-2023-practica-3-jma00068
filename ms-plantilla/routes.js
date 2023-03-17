@@ -33,7 +33,16 @@ router.get("/acercade", async (req, res) => {
     }
 });
 
-
+/**
+ * Ruta Nombre (Devuelve todos los nombres de los jugadores)
+ */
+router.get("/getNombres", async (req, res) => {
+    try {
+        await callbacks.getNombres(req, res)
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 /**
  * Test de conexión a la BBDD

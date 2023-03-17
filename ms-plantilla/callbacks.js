@@ -17,7 +17,7 @@ const client = new faunadb.Client({
     secret: 'fnAE-c8WmaAAzCVbU8gJww_1tspeJ978uUNorblX',
 });
 
-const COLLECTION = "practica3"
+const COLLECTION = "jugadores"
 
 // CALLBACKS DEL MODELO
 
@@ -58,6 +58,28 @@ const CB_MODEL_SELECTS = {
             res.status(200).json(personas)
         } catch (error) {
             res.status(500).json({ error: error.description })
+        }
+    },
+
+    /**
+     * Método para obtener todos los nombres de las personas de la BBDD.
+     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
+     * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+     */
+    getNombres: async (req, res) => {
+        try {
+            let nombres = await client.query(
+                q.Map(
+                    q.Paginate(q.Documents(q.Collection(COLLECTION))),
+                    q.Lambda("X", q.Select(["data", "nombre"], q.Get(q.Var("X"))))
+                )
+            )
+            // console.log( nombres ) // Para comprobar qué se ha devuelto en nombres
+            CORS(res)
+                .status(200)
+                .json(nombres)
+        } catch (error) {
+            CORS(res).status(500).json({ error: error.description })
         }
     },
 

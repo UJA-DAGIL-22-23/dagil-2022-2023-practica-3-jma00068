@@ -55,16 +55,29 @@ describe('Servidor PLANTILLA:', () => {
         .expect(200)
         .expect('Content-Type', /json/)
         .expect(function (res) {
-          //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
-          assert(res.body.data[0].data.hasOwnProperty('¿¿¿ PROPIEDAD ???'));
-          assert(res.body.data[0].data.nombre === "¿¿¿ VALOR ESPERADO ???");
+          //console.log( res.body.data[0] ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data[0].data.hasOwnProperty('num_campeonatos'));
+          assert(res.body.data[0].data.num_campeonatos === 8);
 
         })
         .end((error) => { error ? done.fail(error) : done(); }
         );
     });
 
-  })
+    it('Devuelve un vector de tamaño 12 al consultar mediante getNombres', (done) => {
+      supertest(app)
+        .get('/getNombres')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          // console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.length === 12);
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
+    });
+
+  })  
 });
 
 
