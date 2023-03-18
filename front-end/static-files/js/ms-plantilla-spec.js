@@ -12,6 +12,7 @@ const elementoTitulo = document.getElementById(Frontend.ID_SECCION_PRINCIPAL_TIT
 const elementoContenido = document.getElementById(Frontend.ID_SECCION_PRINCIPAL_CONTENIDO)
 const TITULO_HOME = "Plantilla Home"
 const TITULO_ACERCA_DE = "Plantilla Acerca de"
+const TITULO_NOMBRES = "Listado de nombres de los jugadores de Golf"
 
 const datosDescargadosPrueba = {
     mensaje: "Mensaje de prueba descargado",
@@ -123,6 +124,42 @@ describe("Plantilla.mostrarAcercaDe: ", function () {
         })
 })
 
+describe("Plantilla.mostrarNombres: ", function () {
+
+    it("muestra datos nulos cuando le pasamos un valor nulo",
+        function () {
+            Plantilla.mostrarNombres()
+            expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
+            expect(elementoContenido.innerHTML).toBe(Plantilla.datosDescargadosNulos.mensaje)
+        })
+    
+    it("muestra datos nulos cuando le pasamos un valor que no es un objeto",
+        function () {
+            Plantilla.mostrarNombres(23)
+            expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
+            expect(elementoContenido.innerHTML).toBe(Plantilla.datosDescargadosNulos.mensaje)
+        })
+
+    it("muestra datos nulos cuando le pasamos un objeto que no tiene campo data",
+        function () {
+            // Objeto vacío
+            Plantilla.mostrarNombres({})
+            expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
+            expect(elementoContenido.innerHTML).toBe(Plantilla.datosDescargadosNulos.mensaje)
+
+            // Objeto sin campo data
+            Plantilla.mostrarNombres({ foo: "bar" })
+            expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
+            expect(elementoContenido.innerHTML).toBe(Plantilla.datosDescargadosNulos.mensaje)
+        })
+
+    it("muestra correctamente el título y el mensaje",
+        function () {
+            Plantilla.mostrarNombres(datosDescargadosPrueba)
+            expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
+            expect(elementoContenido.innerHTML).toBe(datosDescargadosPrueba.mensaje)
+        })
+})
 
 /*
 IMPORTANTE

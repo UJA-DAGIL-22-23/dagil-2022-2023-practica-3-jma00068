@@ -42,5 +42,16 @@ describe('API Gateway: rutas estáticas', () => {
   })
 });
 
-
-
+describe('BBDD Jugadores', () => {
+  it(' > Obtener todos los nombres de los jugadores: debe tener un campo data que es un array de 12 objetos', (done) => {
+    supertest(app)
+      .get('/plantilla/getNombres')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect(function (res) {
+        // console.log( "Get Todos Nombres Jugadores", res.body ); // Para comprobar qué contiene exactamente res.body
+        assert(res.body.data.length === 12);
+      })
+      .end((error) => { error ? done.fail(error) : done() })
+  });
+});

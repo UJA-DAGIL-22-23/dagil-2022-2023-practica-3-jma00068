@@ -92,6 +92,29 @@ Plantilla.mostrarAcercaDe = function (datosDescargados) {
     Frontend.Article.actualizar("Plantilla Acerca de", mensajeAMostrar)
 }
 
+/**
+ * Función principal para mostrar los datos enviados por la ruta "getNombres" de MS Plantilla
+ */
+Plantilla.mostrarNombres = function (datosDescargados) {
+    // Si no se ha proporcionado valor para datosDescargados
+    datosDescargados = datosDescargados || this.datosDescargadosNulos
+
+    // Si datos descargados NO es un objeto 
+    if (typeof datosDescargados !== "object") datosDescargados = this.datosDescargadosNulos
+
+    // Si datos descargados NO contiene el campo data
+    if (typeof datosDescargados.data === "undefined") datosDescargados = this.datosDescargadosNulos
+
+    // Muestro todos los jugadores que se han descargado
+    let numJugador = 1
+    let mensajeAMostrar = `<ul>`;
+    datosDescargados.data.forEach(element => {
+        mensajeAMostrar += `<li><b>Nombre jugador ${numJugador}</b>: ${element}</li>`
+        numJugador++
+    });
+    mensajeAMostrar += `</ul>`
+    Frontend.Article.actualizar("Listado de nombres de los jugadores de Golf", mensajeAMostrar)
+}
 
 /**
  * Función principal para responder al evento de elegir la opción "Home"
@@ -107,5 +130,9 @@ Plantilla.procesarAcercaDe = function () {
     this.descargarRuta("/plantilla/acercade", this.mostrarAcercaDe);
 }
 
-
-
+/**
+ * Función principal para responder al evento de elegir la opción "Nombres jugadores"
+ */
+Plantilla.procesarNombres = function () {
+    this.descargarRuta("/plantilla/getNombres", this.mostrarNombres);
+}
