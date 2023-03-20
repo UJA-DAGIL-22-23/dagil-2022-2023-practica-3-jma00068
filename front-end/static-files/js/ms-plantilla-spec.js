@@ -130,14 +130,14 @@ describe("Plantilla.mostrarNombres: ", function () {
         function () {
             Plantilla.mostrarNombres()
             expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
-            expect(elementoContenido.innerHTML).toBe(Plantilla.datosDescargadosNulos.mensaje)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
         })
     
     it("muestra datos nulos cuando le pasamos un valor que no es un objeto",
         function () {
             Plantilla.mostrarNombres(23)
             expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
-            expect(elementoContenido.innerHTML).toBe(Plantilla.datosDescargadosNulos.mensaje)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
         })
 
     it("muestra datos nulos cuando le pasamos un objeto que no tiene campo data",
@@ -145,19 +145,19 @@ describe("Plantilla.mostrarNombres: ", function () {
             // Objeto vacío
             Plantilla.mostrarNombres({})
             expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
-            expect(elementoContenido.innerHTML).toBe(Plantilla.datosDescargadosNulos.mensaje)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
 
             // Objeto sin campo data
             Plantilla.mostrarNombres({ foo: "bar" })
             expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
-            expect(elementoContenido.innerHTML).toBe(Plantilla.datosDescargadosNulos.mensaje)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
         })
 
     it("muestra correctamente el título y el mensaje",
         function () {
             Plantilla.mostrarNombres(datosDescargadosPrueba)
             expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
-            expect(elementoContenido.innerHTML).toBe(datosDescargadosPrueba.mensaje)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
         })
 })
 

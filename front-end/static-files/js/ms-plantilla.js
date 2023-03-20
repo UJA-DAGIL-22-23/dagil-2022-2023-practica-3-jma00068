@@ -18,7 +18,6 @@ Plantilla.datosDescargadosNulos = {
     fecha: ""
 }
 
-
 /**
  * Función que descarga la info MS Plantilla al llamar a una de sus rutas
  * @param {string} ruta Ruta a descargar
@@ -96,23 +95,37 @@ Plantilla.mostrarAcercaDe = function (datosDescargados) {
  * Función principal para mostrar los datos enviados por la ruta "getNombres" de MS Plantilla
  */
 Plantilla.mostrarNombres = function (datosDescargados) {
+    // Mensaje que se enviará para mostrar los datos
+    let mensajeAMostrar = ""
+
     // Si no se ha proporcionado valor para datosDescargados
     datosDescargados = datosDescargados || this.datosDescargadosNulos
 
-    // Si datos descargados NO es un objeto 
-    if (typeof datosDescargados !== "object") datosDescargados = this.datosDescargadosNulos
-
-    // Si datos descargados NO contiene el campo data
-    if (typeof datosDescargados.data === "undefined") datosDescargados = this.datosDescargadosNulos
+    // Si datos descargados NO es un objeto  o NO contiene el campo data
+    if (typeof datosDescargados !== "object" || typeof datosDescargados.data === "undefined") {
+        datosDescargados = this.datosDescargadosNulos
+        mensajeAMostrar = `<div>
+    <p>${datosDescargados.mensaje}</p>
+    <ul>
+        <li><b>Autor/a</b>: ${datosDescargados.autor}</li>
+        <li><b>E-mail</b>: ${datosDescargados.email}</li>
+        <li><b>Fecha</b>: ${datosDescargados.fecha}</li>
+    </ul>
+    </div>
+    `;
+    }
 
     // Muestro todos los jugadores que se han descargado
-    let numJugador = 1
-    let mensajeAMostrar = `<ul>`;
-    datosDescargados.data.forEach(element => {
-        mensajeAMostrar += `<li><b>Nombre jugador ${numJugador}</b>: ${element}</li>`
-        numJugador++
-    });
-    mensajeAMostrar += `</ul>`
+    else {
+        let numJugador = 1
+        mensajeAMostrar = `<ul>`;
+        datosDescargados.data.forEach(element => {
+            mensajeAMostrar += `<li><b>Nombre jugador ${numJugador}</b>: ${element}</li>`
+            numJugador++
+        });
+        mensajeAMostrar += `</ul>`;
+        datosDescargados = mensajeAMostrar
+    }
     Frontend.Article.actualizar("Listado de nombres de los jugadores de Golf", mensajeAMostrar)
 }
 
