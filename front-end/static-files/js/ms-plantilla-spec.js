@@ -161,6 +161,43 @@ describe("Plantilla.mostrarNombres: ", function () {
         })
 })
 
+describe("Plantilla.mostrarNombresOrdenados: ", function () {
+
+    it("muestra datos nulos cuando le pasamos un valor nulo",
+        function () {
+            Plantilla.mostrarNombresOrdenados()
+            expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+        })
+    
+    it("muestra datos nulos cuando le pasamos un valor que no es un objeto",
+        function () {
+            Plantilla.mostrarNombresOrdenados(23)
+            expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+        })
+
+    it("muestra datos nulos cuando le pasamos un objeto que no tiene campo data",
+        function () {
+            // Objeto vacío
+            Plantilla.mostrarNombresOrdenados({})
+            expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+
+            // Objeto sin campo data
+            Plantilla.mostrarNombresOrdenados({ foo: "bar" })
+            expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+        })
+
+    it("muestra correctamente el título y el mensaje",
+        function () {
+            Plantilla.mostrarNombresOrdenados(datosDescargadosPrueba)
+            expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+        })
+})
+
 /*
 IMPORTANTE
 ==========

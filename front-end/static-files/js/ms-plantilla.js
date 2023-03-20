@@ -118,7 +118,48 @@ Plantilla.mostrarNombres = function (datosDescargados) {
     // Muestro todos los jugadores que se han descargado
     else {
         let numJugador = 1
-        mensajeAMostrar = `<ul>`;
+        mensajeAMostrar = `<a href="javascript:Plantilla.procesarNombresOrdenados()" class="opcion-principal"
+        title="Llama a la ruta /getNombres del MS Plantilla">Ordenar alfabéticamente</a><ul>`;
+        datosDescargados.data.forEach(element => {
+            mensajeAMostrar += `<li><b>Nombre jugador ${numJugador}</b>: ${element}</li>`
+            numJugador++
+        });
+        mensajeAMostrar += `</ul>`;
+        datosDescargados = mensajeAMostrar
+    }
+    Frontend.Article.actualizar("Listado de nombres de los jugadores de Golf", mensajeAMostrar)
+}
+
+/**
+ * Función principal para mostrar los datos enviados de forma ordenada por la ruta "getNombres" de MS Plantilla
+ */
+Plantilla.mostrarNombresOrdenados = function (datosDescargados) {
+    // Mensaje que se enviará para mostrar los datos
+    let mensajeAMostrar = ""
+
+    // Si no se ha proporcionado valor para datosDescargados
+    datosDescargados = datosDescargados || this.datosDescargadosNulos
+
+    // Si datos descargados NO es un objeto  o NO contiene el campo data
+    if (typeof datosDescargados !== "object" || typeof datosDescargados.data === "undefined") {
+        datosDescargados = this.datosDescargadosNulos
+        mensajeAMostrar = `<div>
+    <p>${datosDescargados.mensaje}</p>
+    <ul>
+        <li><b>Autor/a</b>: ${datosDescargados.autor}</li>
+        <li><b>E-mail</b>: ${datosDescargados.email}</li>
+        <li><b>Fecha</b>: ${datosDescargados.fecha}</li>
+    </ul>
+    </div>
+    `;
+    }
+
+    // Muestro todos los jugadores que se han descargado de forma ordenada alfabéticamente
+    else {
+        datosDescargados.data.sort() // Ordenamos los nombres recibidos
+        let numJugador = 1
+        mensajeAMostrar = `<a href="javascript:Plantilla.procesarNombres()" class="opcion-principal"
+        title="Llama a la ruta /getNombres del MS Plantilla">Quitar orden alfabético</a><ul>`;
         datosDescargados.data.forEach(element => {
             mensajeAMostrar += `<li><b>Nombre jugador ${numJugador}</b>: ${element}</li>`
             numJugador++
@@ -148,4 +189,11 @@ Plantilla.procesarAcercaDe = function () {
  */
 Plantilla.procesarNombres = function () {
     this.descargarRuta("/plantilla/getNombres", this.mostrarNombres);
+}
+
+/**
+ * Función principal para responder al evento de elegir la opción "Nombres jugadores" y mostrarlos de forma ordenada
+ */
+Plantilla.procesarNombresOrdenados = function () {
+    this.descargarRuta("/plantilla/getNombres", this.mostrarNombresOrdenados);
 }
