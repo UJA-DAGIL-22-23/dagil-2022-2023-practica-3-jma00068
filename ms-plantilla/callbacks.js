@@ -62,7 +62,7 @@ const CB_MODEL_SELECTS = {
     },
 
     /**
-     * Método para obtener todos los nombres de las personas de la BBDD.
+     * Método para obtener todos los nombres de los jugadores de la BBDD.
      * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
      * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
      */
@@ -78,6 +78,28 @@ const CB_MODEL_SELECTS = {
             CORS(res)
                 .status(200)
                 .json(nombres)
+        } catch (error) {
+            CORS(res).status(500).json({ error: error.description })
+        }
+    },
+
+    /**
+     * Método para obtener todos los jugadores de la BBDD.
+     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
+     * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+     */
+    getTodos: async (req, res) => {
+        try {
+            let jugadores = await client.query(
+                q.Map(
+                    q.Paginate(q.Documents(q.Collection(COLLECTION))),
+                    q.Lambda("X", q.Get(q.Var("X")))
+                )
+            )
+            console.log( jugadores ) // Para comprobar qué se ha devuelto en jugadores
+            CORS(res)
+                .status(200)
+                .json(jugadores)
         } catch (error) {
             CORS(res).status(500).json({ error: error.description })
         }

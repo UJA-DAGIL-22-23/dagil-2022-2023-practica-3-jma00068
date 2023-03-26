@@ -45,6 +45,17 @@ router.get("/getNombres", async (req, res) => {
 });
 
 /**
+ * Ruta Nombre (Devuelve todos los jugadores)
+ */
+router.get("/getTodos", async (req, res) => {
+    try {
+        await callbacks.getTodos(req, res)
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+/**
  * Test de conexión a la BBDD
  */
 router.get("/test_db", async (req, res) => {

@@ -54,4 +54,16 @@ describe('BBDD Jugadores', () => {
       })
       .end((error) => { error ? done.fail(error) : done() })
   });
+
+  it(' > Obtener todos los jugadores: debe ser un array de 12 objetos', (done) => {
+    supertest(app)
+      .get('/plantilla/getTodos')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect(function (res) {
+        // console.log( "Get Todos Jugadores", res.body ); // Para comprobar qué contiene exactamente res.body
+        assert(res.body.data.length === 12);
+      })
+      .end((error) => { error ? done.fail(error) : done() })
+  });
 });
