@@ -96,7 +96,7 @@ const CB_MODEL_SELECTS = {
                     q.Lambda("X", q.Get(q.Var("X")))
                 )
             )
-            console.log( jugadores ) // Para comprobar qué se ha devuelto en jugadores
+            // console.log( jugadores ) // Para comprobar qué se ha devuelto en jugadores
             CORS(res)
                 .status(200)
                 .json(jugadores)

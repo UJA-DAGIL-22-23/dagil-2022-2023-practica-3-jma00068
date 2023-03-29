@@ -13,6 +13,7 @@ const elementoContenido = document.getElementById(Frontend.ID_SECCION_PRINCIPAL_
 const TITULO_HOME = "Plantilla Home"
 const TITULO_ACERCA_DE = "Plantilla Acerca de"
 const TITULO_NOMBRES = "Listado de nombres de los jugadores de Golf"
+const TITULO_LISTADO = "Listado de jugadores"
 
 const datosDescargadosPrueba = {
     mensaje: "Mensaje de prueba descargado",
@@ -21,6 +22,20 @@ const datosDescargadosPrueba = {
     fecha: "00/00/0000"
 }
 
+// Ejemplo de conjunto de jugadores
+var jugadoresPrueba = {"data":[{"ref":{"@ref":{"id":"358541978933133516","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1679858016750000,"data":{"nombre":"Tiger","apellidos":"Woods","fecha_nac":{"dia":10,"mes":7,"anio":1976},"anio_gana_premio":[1998,1999],"num_campeonatos":8}},{"ref":{"@ref":{"id":"358544014023065805","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1679858006640000,"data":{"nombre":"John","apellidos":"Rahm","fecha_nac":{"dia":11,"mes":4,"anio":1974},"anio_gana_premio":[1997,2000],"num_campeonatos":6}},{"ref":{"@ref":{"id":"358544207663595725","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1679857997780000,"data":{"nombre":"Severiano","apellidos":"Ballesteros","fecha_nac":{"dia":2,"mes":3,"anio":1985},"anio_gana_premio":[2003,2004,2002],"num_campeonatos":5}},{"ref":{"@ref":{"id":"358544323752493261","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1679857988925000,"data":{"nombre":"Sergio","apellidos":"García","fecha_nac":{"dia":21,"mes":9,"anio":1980},"anio_gana_premio":[2008,2007],"num_campeonatos":10}},{"ref":{"@ref":{"id":"358544436411498701","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1679857978780000,"data":{"nombre":"Dustin","apellidos":"Johnson","fecha_nac":{"dia":13,"mes":5,"anio":1945},"anio_gana_premio":[1976,1977,1978,1979],"num_campeonatos":9}},{"ref":{"@ref":{"id":"358544534712352973","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1679857968515000,"data":{"nombre":"Rary","apellidos":"Mcllroy","fecha_nac":{"dia":18,"mes":10,"anio":1964},"anio_gana_premio":[1981,1985],"num_campeonatos":6}},{"ref":{"@ref":{"id":"358544661327904973","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1678193684810000,"data":{"nombre":"Phil","apellidos":"Mickelus","fecha_nac":{"dia":7,"mes":11,"anio":1975},"anio_gana_premio":[1988,1990],"num_campeonatos":4}},{"ref":{"@ref":{"id":"358544775008223437","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1678193793220000,"data":{"nombre":"Jack","apellidos":"Nickalaus","fecha_nac":{"dia":21,"mes":3,"anio":1994},"anio_gana_premio":[2010,2011],"num_campeonatos":8}},{"ref":{"@ref":{"id":"358544947023970508","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1678193957270000,"data":{"nombre":"Arnold","apellidos":"Palmer","fecha_nac":{"dia":17,"mes":2,"anio":2001},"anio_gana_premio":[2015,2016],"num_campeonatos":10}},{"ref":{"@ref":{"id":"358545011239813324","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1678194018510000,"data":{"nombre":"Justin","apellidos":"Thomas","fecha_nac":{"dia":17,"mes":6,"anio":1937},"anio_gana_premio":[1951,1954],"num_campeonatos":8}},{"ref":{"@ref":{"id":"358545085482139853","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1678194089310000,"data":{"nombre":"Lee","apellidos":"Westwoods","fecha_nac":{"dia":13,"mes":7,"anio":1962},"anio_gana_premio":[2018,2019],"num_campeonatos":10}},{"ref":{"@ref":{"id":"358545183252414669","collection":{"@ref":{"id":"jugadores","collection":{"@ref":{"id":"collections"}}}}}},"ts":1678194182555000,"data":{"nombre":"Ben","apellidos":"Hogan","fecha_nac":{"dia":11,"mes":19,"anio":1937},"anio_gana_premio":[1949,1958],"num_campeonatos":15}}]}
+
+// Respuesta al actualizar los datos del primer jugador en jugadoresPrueba
+var jugadorActualizadoPrueba = `
+    <tr title="358541978933133516">
+        <td>358541978933133516</td>
+        <td>Tiger</td>
+        <td>Woods</td>
+        <td>10/7/1976</td>
+        <td>1998,1999</td>
+        <td>8</td>
+    </tr>
+    `;
 
 // Función para esperar y dar tiempo a que responda el microservicio
 function esperar(ms) {
@@ -155,9 +170,9 @@ describe("Plantilla.mostrarNombres: ", function () {
 
     it("muestra correctamente el título y el mensaje",
         function () {
-            Plantilla.mostrarNombres(datosDescargadosPrueba)
+            Plantilla.mostrarNombres({ data: ["Tiger", "Tails"] })
             expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
-            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+            expect(elementoContenido.innerHTML.search({ data: ["Tiger", "Tails"] }) >= 0).toBeTrue()
         })
 })
 
@@ -192,9 +207,64 @@ describe("Plantilla.mostrarNombresOrdenados: ", function () {
 
     it("muestra correctamente el título y el mensaje",
         function () {
-            Plantilla.mostrarNombresOrdenados(datosDescargadosPrueba)
+            Plantilla.mostrarNombresOrdenados({ data: ["BBB", "AAA"] })
             expect(elementoTitulo.innerHTML).toBe(TITULO_NOMBRES)
+            expect(elementoContenido.innerHTML.search({ data: ["AAA", "BBB"] }) >= 0).toBeTrue()
+        })
+})
+
+describe("Plantilla.sustituyeTags: ", function () {
+
+    it("actualiza correctamente los datos de un jugador en base a una plantilla",
+        function () {
+            expect(Plantilla.sustituyeTags(Plantilla.tablaJugadores.cuerpo, jugadoresPrueba.data[0])).toEqual(jugadorActualizadoPrueba)
+        })
+    
+})
+
+describe("Plantilla.actualiza: ", function () {
+
+    it("actualiza correctamente los datos de un jugador",
+        function () {
+            expect(Plantilla.tablaJugadores.actualiza(jugadoresPrueba.data[0])).toEqual(jugadorActualizadoPrueba)
+        })
+    
+})
+
+describe("Plantilla.imprimeMuchosJugadores: ", function () {
+
+    it("muestra datos nulos cuando le pasamos un valor nulo",
+        function () {
+            Plantilla.imprimeMuchosJugadores()
+            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO)
             expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+        })
+    
+    it("muestra datos nulos cuando le pasamos un valor que no es un objeto",
+        function () {
+            Plantilla.imprimeMuchosJugadores(23)
+            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+        })
+
+    it("muestra datos nulos cuando le pasamos un objeto que no tiene campo data",
+        function () {
+            // Objeto vacío
+            Plantilla.imprimeMuchosJugadores({})
+            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+
+            // Objeto sin campo data
+            Plantilla.imprimeMuchosJugadores({ foo: "bar" })
+            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+        })
+
+    it("muestra correctamente el título y el mensaje",
+        function () {
+            Plantilla.imprimeMuchosJugadores(jugadoresPrueba)
+            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO)
+            expect(elementoContenido.innerHTML.search(jugadoresPrueba) >= 0).toBeTrue()
         })
 })
 
