@@ -24,6 +24,10 @@ Estudiante de Informática de la Universidad de Jaén, de la asignatura Desarrol
 
 ## Iteración 1
 
+En primer lugar hay que escoger las HU que queremos implementar y describirlas en trello. La situación inicial justo antes de comenzar el desarrollo es la siguiente:
+
+![Imagen justo antes de iniciar el desarrollo](./capturas/iteracion1_inicio.png)
+
 En esta primera iteración he implementado las siguiente funcionalidades:
 
 1. Ver la información del autor/autora de la aplicación al pulsar en el botón “Acerca de”.
@@ -71,3 +75,9 @@ Para ello hacemos una consulta a la base de datos donde nos devuelva todos los d
 El resultado obtenido tras la implementación de esta funcionalidad es:
 
 ![Imagen tras mostrar todos los jugadores](./capturas/listarJugadores.png)
+
+### Finalización
+
+Una vez que hemos implementado todas las HU descritas para esta primera iteración el aspecto del tablero de Trello es el siguiente:
+
+![Imagen tras implementar todas las HU](./capturas/iteracion1_final.png)
