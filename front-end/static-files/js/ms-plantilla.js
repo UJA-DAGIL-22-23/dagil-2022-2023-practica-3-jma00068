@@ -7,6 +7,14 @@
 
 "use strict";
 
+// Constantes
+let ORDENAR_ID = 1;
+let ORDENAR_NOMBRE = 2;
+let ORDENAR_APELLIDOS = 3;
+let ORDENAR_FECHA_NAC = 4;
+let ORDENAR_ANIOS_GANA_PREMIOS = 5;
+let ORDENAR_NUM_CAMPEONATOS = 6;
+
 /// Creo el espacio de nombres
 let Plantilla = {};
 
@@ -33,12 +41,12 @@ Plantilla.tablaJugadores = {}
 // Cabecera de la tabla
 Plantilla.tablaJugadores.cabecera = `<table width="100%" class="listado-personas">
                     <thead>
-                        <th width="15%">Id</th>
-                        <th width="15%">Nombre</th>
-                        <th width="20%">Apellidos</th>
-                        <th width="15%">Fecha Nacimiento</th>
-                        <th width="20%">Años gana premios</th>
-                        <th width="15%">Número campeonatos</th>
+                        <th width="15%">Id <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_ID})" class="opcion-secundaria mostrar">V</a> </th>
+                        <th width="15%">Nombre <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_NOMBRE})" class="opcion-secundaria mostrar">V</a> </th>
+                        <th width="20%">Apellidos <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_APELLIDOS})" class="opcion-secundaria mostrar">V</a> </th>
+                        <th width="15%">Fecha Nacimiento <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_FECHA_NAC})" class="opcion-secundaria mostrar">V</a> </th>
+                        <th width="20%">Años gana premios <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_ANIOS_GANA_PREMIOS})" class="opcion-secundaria mostrar">V</a> </th>
+                        <th width="15%">Número campeonatos <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_NUM_CAMPEONATOS})" class="opcion-secundaria mostrar">V</a> </th>
                     </thead>
                     <tbody>
     `;
@@ -91,7 +99,7 @@ Plantilla.tablaJugadores.actualiza = function (jugador) {
  * @param {string} ruta Ruta a descargar
  * @param {función} callBackFn Función a la que se llamará una vez recibidos los datos.
  */
-Plantilla.descargarRuta = async function (ruta, callBackFn) {
+Plantilla.descargarRuta = async function (ruta, callBackFn, opcion) {
     let response = null
 
     // Intento conectar con el microservicio Plantilla
@@ -109,7 +117,7 @@ Plantilla.descargarRuta = async function (ruta, callBackFn) {
     let datosDescargados = null
     if (response) {
         datosDescargados = await response.json()
-        callBackFn(datosDescargados)
+        callBackFn(datosDescargados, opcion)
     }
 }
 
@@ -243,7 +251,7 @@ Plantilla.mostrarNombresOrdenados = function (datosDescargados) {
  * @param {Vector_de_jugadores} vector Vector con los datos de los jugadores a mostrar
  */
 
-Plantilla.imprimeMuchosJugadores = function (datosDescargados) {
+Plantilla.imprimeMuchosJugadores = function (datosDescargados, opOrdenar) {
     // Mensaje que se enviará para mostrar los datos
     let mensajeAMostrar = ""
 
@@ -268,6 +276,8 @@ Plantilla.imprimeMuchosJugadores = function (datosDescargados) {
     else {
         let vectorJugadores = datosDescargados.data
 
+        Plantilla.ordenaJugadores(vectorJugadores, opOrdenar) // Ordenamos los datos en caso de que sea necesario
+
         // Compongo el contenido que se va a mostrar dentro de la tabla
         mensajeAMostrar = Plantilla.tablaJugadores.cabecera
         vectorJugadores.forEach(e => mensajeAMostrar += Plantilla.tablaJugadores.actualiza(e))
@@ -277,6 +287,67 @@ Plantilla.imprimeMuchosJugadores = function (datosDescargados) {
 
     // Borro toda la info de Article y la sustituyo por la que me interesa
     Frontend.Article.actualizar("Listado de jugadores", mensajeAMostrar)
+}
+
+/**
+ * Función que ordena el vector de todos los jugadores dependiendo del parametro indicado
+ */
+Plantilla.ordenaJugadores = function (vectorJugadores, opOrdenar) {
+    switch (opOrdenar) {
+        case ORDENAR_ID:
+            vectorJugadores.sort((x, y) => x.ref['@ref'].id - y.ref['@ref'].id); // Ordenamos de menor a mayor
+            break;
+        case ORDENAR_NOMBRE:
+            vectorJugadores.sort(function (x, y) { // Ordenamos por orden alfabético
+                if (x.data.nombre < y.data.nombre) {
+                    return -1;
+                }
+             
+                if (x.data.nombre > y.data.nombre) {
+                    return 1;
+                }
+             
+                return 0;
+            });
+            break;
+        case ORDENAR_APELLIDOS:
+            vectorJugadores.sort(function (x, y) { // Ordenamos por orden alfabético
+                if (x.data.apellidos < y.data.apellidos) {
+                    return -1;
+                }
+             
+                if (x.data.apellidos > y.data.apellidos) {
+                    return 1;
+                }
+             
+                return 0;
+            });
+            break;
+        case ORDENAR_FECHA_NAC:
+            vectorJugadores.sort(function (x, y) { // Ordenamos de más antigua a más moderna
+                var fecha1 = new Date();
+                var fecha2 = new Date();
+                fecha1.setFullYear(x.data.fecha_nac.anio, x.data.fecha_nac.mes, x.data.fecha_nac.dia);
+                fecha2.setFullYear(y.data.fecha_nac.anio, y.data.fecha_nac.mes, y.data.fecha_nac.dia);
+
+                if (fecha1 < fecha2) {
+                    return -1;
+                }
+             
+                if (fecha1 > fecha2) {
+                    return 1;
+                }
+             
+                return 0;
+            });
+            break;
+        case ORDENAR_ANIOS_GANA_PREMIOS:
+            vectorJugadores.sort((x, y) => y.data.anio_gana_premio.length - x.data.anio_gana_premio.length); // Ordenamos de mayor a menor cantidad
+            break;
+        case ORDENAR_NUM_CAMPEONATOS:
+            vectorJugadores.sort((x, y) => y.data.num_campeonatos - x.data.num_campeonatos); // Ordenamos de mayor a menor cantidad
+            break;
+    }
 }
 
 /**
@@ -310,6 +381,6 @@ Plantilla.procesarNombresOrdenados = function () {
 /**
  * Función principal para responder al evento de elegir la opción "Listar jugadores" y mostrarlos de forma ordenada
  */
-Plantilla.procesarJugadores = function () {
-    this.descargarRuta("/plantilla/getTodos", this.imprimeMuchosJugadores);
+Plantilla.procesarJugadores = function (opcion) {
+    this.descargarRuta("/plantilla/getTodos", this.imprimeMuchosJugadores, opcion);
 }
