@@ -8,6 +8,7 @@
 "use strict";
 
 // Constantes
+let NINGUNO = 0;
 let ORDENAR_ID = 1;
 let ORDENAR_NOMBRE = 2;
 let ORDENAR_APELLIDOS = 3;
