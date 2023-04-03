@@ -66,4 +66,17 @@ describe('BBDD Jugadores', () => {
       })
       .end((error) => { error ? done.fail(error) : done() })
   });
+
+  it('Devuelve un jugador al consultar mediante getPorId', (done) => {
+    supertest(app)
+      .get('/plantilla/getPorId/358544323752493261') // Utilizamos un id de uno de los jugadores
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect(function (res) {
+        // console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+        assert(res.body.data.nombre === 'Sergio'); // Este jugador debería de llamarse Sergio
+      })
+      .end((error) => { error ? done.fail(error) : done(); }
+      );
+  });
 });

@@ -55,6 +55,22 @@ router.get("/getTodos", async (req, res) => {
     }
 });
 
+router.param("idJugador", (req, res, next, id) => {
+    next();
+});
+  
+
+/**
+ * Devuelve los datos del jugador con el id indicado
+ */
+router.get("/getPorId/:idJugador", async (req, res) => {
+    try {
+        await callbacks.getPorId(req, res)
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 /**
  * Test de conexión a la BBDD
  */
