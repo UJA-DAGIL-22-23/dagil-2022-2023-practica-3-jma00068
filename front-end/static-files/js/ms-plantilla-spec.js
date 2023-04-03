@@ -14,6 +14,7 @@ const TITULO_HOME = "Plantilla Home"
 const TITULO_ACERCA_DE = "Plantilla Acerca de"
 const TITULO_NOMBRES = "Listado de nombres de los jugadores de Golf"
 const TITULO_LISTADO = "Listado de jugadores"
+const TITULO_MUESTRA_JUGADOR = "Mostrar un jugador"
 
 const datosDescargadosPrueba = {
     mensaje: "Mensaje de prueba descargado",
@@ -42,6 +43,9 @@ var jugadorActualizadoPrueba = `
         <td>10/7/1976</td>
         <td>1998,1999</td>
         <td>8</td>
+        <td>
+                    <div><a href="javascript:Plantilla.mostrar('358541978933133516')" class="opcion-secundaria mostrar">Mostrar</a></div>
+        </td>
     </tr>
     `;
 
@@ -321,6 +325,42 @@ describe("Plantilla.ordenaJugadores: ", function () {
         })        
 })
 
+describe("Plantilla.imprimeUnJugador: ", function () {
+
+    it("muestra datos nulos cuando le pasamos un valor nulo",
+        function () {
+            Plantilla.imprimeUnJugador()
+            expect(elementoTitulo.innerHTML).toBe(TITULO_MUESTRA_JUGADOR)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+        })
+    
+    it("muestra datos nulos cuando le pasamos un valor que no es un objeto",
+        function () {
+            Plantilla.imprimeUnJugador(23)
+            expect(elementoTitulo.innerHTML).toBe(TITULO_MUESTRA_JUGADOR)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+        })
+
+    it("muestra datos nulos cuando le pasamos un objeto que no tiene campo data",
+        function () {
+            // Objeto vacío
+            Plantilla.imprimeUnJugador({})
+            expect(elementoTitulo.innerHTML).toBe(TITULO_MUESTRA_JUGADOR)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+
+            // Objeto sin campo data
+            Plantilla.imprimeUnJugador({ foo: "bar" })
+            expect(elementoTitulo.innerHTML).toBe(TITULO_MUESTRA_JUGADOR)
+            expect(elementoContenido.innerHTML.search(Plantilla.datosDescargadosNulos.mensaje) >= 0).toBeTrue()
+        })
+
+    it("muestra correctamente el título y el mensaje",
+        function () {
+            Plantilla.imprimeUnJugador(jugadoresPrueba.data[2])
+            expect(elementoTitulo.innerHTML).toBe(TITULO_MUESTRA_JUGADOR)
+            expect(elementoContenido.innerHTML.search(jugadoresPrueba[2]) >= 0).toBeTrue()
+        })
+})
 
 /*
 IMPORTANTE

@@ -43,11 +43,12 @@ Plantilla.tablaJugadores = {}
 Plantilla.tablaJugadores.cabecera = `<table width="100%" class="listado-personas">
                     <thead>
                         <th width="15%">Id <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_ID})" class="opcion-secundaria mostrar">V</a> </th>
-                        <th width="15%">Nombre <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_NOMBRE})" class="opcion-secundaria mostrar">V</a> </th>
-                        <th width="20%">Apellidos <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_APELLIDOS})" class="opcion-secundaria mostrar">V</a> </th>
+                        <th width="10%">Nombre <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_NOMBRE})" class="opcion-secundaria mostrar">V</a> </th>
+                        <th width="15%">Apellidos <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_APELLIDOS})" class="opcion-secundaria mostrar">V</a> </th>
                         <th width="15%">Fecha Nacimiento <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_FECHA_NAC})" class="opcion-secundaria mostrar">V</a> </th>
                         <th width="20%">Años gana premios <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_ANIOS_GANA_PREMIOS})" class="opcion-secundaria mostrar">V</a> </th>
                         <th width="15%">Número campeonatos <a href="javascript:Plantilla.procesarJugadores(${ORDENAR_NUM_CAMPEONATOS})" class="opcion-secundaria mostrar">V</a> </th>
+                        <th width="10%">Detalles </th>
                     </thead>
                     <tbody>
     `;
@@ -61,6 +62,9 @@ Plantilla.tablaJugadores.cuerpo = `
         <td>${Plantilla.plantillaTags["FECHA NACIMIENTO"]}</td>
         <td>${Plantilla.plantillaTags["AÑOS GANA PREMIOS"]}</td>
         <td>${Plantilla.plantillaTags["NÚMERO CAMPEONATOS"]}</td>
+        <td>
+                    <div><a href="javascript:Plantilla.mostrar('${Plantilla.plantillaTags.ID}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+        </td>
     </tr>
     `;
 
@@ -352,6 +356,79 @@ Plantilla.ordenaJugadores = function (vectorJugadores, opOrdenar) {
 }
 
 /**
+ * Función para mostrar en pantalla los detalles de un jugador que se ha recuperado de la BBDD por su id
+ * @param {Jugador} jugador Datos del jugador a mostrar
+ */
+
+Plantilla.imprimeUnJugador = function (datosDescargados) {
+    // Mensaje que se enviará para mostrar los datos
+    let mensajeAMostrar = ""
+
+    // Si no se ha proporcionado valor para datosDescargados
+    datosDescargados = datosDescargados || this.datosDescargadosNulos
+
+    // Si datos descargados NO es un objeto  o NO contiene el campo data
+    if (typeof datosDescargados !== "object" || typeof datosDescargados.data === "undefined") {
+        datosDescargados = this.datosDescargadosNulos
+        mensajeAMostrar = `<div>
+    <p>${datosDescargados.mensaje}</p>
+    <ul>
+        <li><b>Autor/a</b>: ${datosDescargados.autor}</li>
+        <li><b>E-mail</b>: ${datosDescargados.email}</li>
+        <li><b>Fecha</b>: ${datosDescargados.fecha}</li>
+    </ul>
+    </div>
+    `;
+    }
+
+    // Muestro el jugador con todos sus datos en forma de formulario
+    else {
+        // console.log(datosDescargados) // Para comprobar los datos que se han descargado
+        let fecha_nac = datosDescargados.data.fecha_nac.dia+"/"+datosDescargados.data.fecha_nac.mes+"/"+datosDescargados.data.fecha_nac.anio
+        mensajeAMostrar = `<form method='post' action=''>
+        <table width="100%" class="listado-personas">
+            <thead>
+                <th width="15%">Id</th><th width="10%">Nombre</th><th width="15%">Apellidos</th><th width="15%">Fecha Nacimiento</th>
+                <th width="20%">Años gana premios</th><th width="15%">Número campeonatos</th><th width="10%">Opciones</th>
+            </thead>
+            <tbody>
+                <tr title="${datosDescargados.ref['@ref'].id}">
+                    <td><input type="text" class="form-persona-elemento" disabled id="form-persona-id"
+                            value="${datosDescargados.ref['@ref'].id}" 
+                            name="id_persona"/></td>
+                    <td><input type="text" class="form-persona-elemento editable" disabled
+                            id="form-persona-nombre" required value="${datosDescargados.data.nombre}" 
+                            name="nombre_persona"/></td>
+                    <td><input type="text" class="form-persona-elemento editable" disabled
+                            id="form-persona-apellidos" value="${datosDescargados.data.apellidos}" 
+                            name="apellidos_persona"/></td>
+                    <td><input type="text" class="form-persona-elemento editable" disabled
+                            id="form-persona-fechanac" required value="${fecha_nac}" 
+                            name="fechanac_persona"/></td>
+                    <td><input type="text" class="form-persona-elemento editable" disabled
+                            id="form-persona-anioganapremio" required
+                            value="${datosDescargados.data.anio_gana_premio}" 
+                            name="anioganapremio_persona"/></td>
+                    <td><input type="number" class="form-persona-elemento editable" disabled
+                            id="form-persona-numcampeonatos" required
+                            value="${datosDescargados.data.num_campeonatos}" 
+                            name="numcampeonatos_persona"/></td>
+                    <td>
+                        <div><a href="" class="opcion-secundaria mostrar">Editar</a></div>
+                        <div><a href="" class="opcion-secundaria editar ocultar">Guardar</a></div>
+                        <div><a href="" class="opcion-secundaria editar ocultar">Cancelar</a></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    `;
+    }
+    // Borro toda la info de Article y la sustituyo por la que me interesa
+    Frontend.Article.actualizar("Mostrar un jugador", mensajeAMostrar)
+}
+
+/**
  * Función principal para responder al evento de elegir la opción "Home"
  */
 Plantilla.procesarHome = function () {
@@ -384,4 +461,12 @@ Plantilla.procesarNombresOrdenados = function () {
  */
 Plantilla.procesarJugadores = function (opcion) {
     this.descargarRuta("/plantilla/getTodos", this.imprimeMuchosJugadores, opcion);
+}
+
+/**
+ * Función principal para mostrar los datos de un jugador desde el MS y, posteriormente, imprimirla.
+ * @param {String} idJugador Identificador de la persona a mostrar
+ */
+Plantilla.mostrar = function (idJugador) {
+    this.descargarRuta("/plantilla/getPorId/"+idJugador, this.imprimeUnJugador);
 }
