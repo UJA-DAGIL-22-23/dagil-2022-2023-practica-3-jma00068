@@ -103,6 +103,26 @@ describe('Servidor PLANTILLA:', () => {
         );
     });
 
+    it('Devuelve nombre cambiado al recuperar los datos del jugador con id 358541978933133516 mediante setNombre', (done) => {
+      const NOMBRE_TEST= 'Tiger'
+      const jugador = {
+        id_jugador: '358541978933133516',
+        nombre_jugador: NOMBRE_TEST,  
+      };
+      supertest(app)
+        .post('/setNombre')
+        .send(jugador)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          //console.log( "Server-spec , /setNombre res.body", res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.hasOwnProperty('nombre'));
+          assert(res.body.data.nombre === NOMBRE_TEST);
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
+    });
+
   })  
 });
 

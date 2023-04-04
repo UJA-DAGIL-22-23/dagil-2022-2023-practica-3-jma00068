@@ -395,24 +395,24 @@ Plantilla.imprimeUnJugador = function (datosDescargados) {
                 <tr title="${datosDescargados.ref['@ref'].id}">
                     <td><input type="text" class="form-persona-elemento" disabled id="form-persona-id"
                             value="${datosDescargados.ref['@ref'].id}" 
-                            name="id_persona"/></td>
+                            name="id_jugador"/></td>
                     <td><input type="text" class="form-persona-elemento editable" disabled
                             id="form-persona-nombre" required value="${datosDescargados.data.nombre}" 
-                            name="nombre_persona"/></td>
+                            name="nombre_jugador"/></td>
                     <td><input type="text" class="form-persona-elemento editable" disabled
                             id="form-persona-apellidos" value="${datosDescargados.data.apellidos}" 
-                            name="apellidos_persona"/></td>
+                            name="apellidos_jugador"/></td>
                     <td><input type="text" class="form-persona-elemento editable" disabled
                             id="form-persona-fechanac" required value="${fecha_nac}" 
-                            name="fechanac_persona"/></td>
+                            name="fechanac_jugador"/></td>
                     <td><input type="text" class="form-persona-elemento editable" disabled
                             id="form-persona-anioganapremio" required
                             value="${datosDescargados.data.anio_gana_premio}" 
-                            name="anioganapremio_persona"/></td>
+                            name="anioganapremio_jugador"/></td>
                     <td><input type="number" class="form-persona-elemento editable" disabled
                             id="form-persona-numcampeonatos" required
                             value="${datosDescargados.data.num_campeonatos}" 
-                            name="numcampeonatos_persona"/></td>
+                            name="numcampeonatos_jugador"/></td>
                     <td>
                         <div><a href="" class="opcion-secundaria mostrar">Editar</a></div>
                         <div><a href="" class="opcion-secundaria editar ocultar">Guardar</a></div>

@@ -72,6 +72,17 @@ router.get("/getPorId/:idJugador", async (req, res) => {
 });
 
 /**
+ * Modifica el nombre del jugador con el id indicado
+ */
+router.post("/setNombre", async (req, res) => {
+    try {
+        await callbacks.setNombre(req, res)
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+/**
  * Test de conexión a la BBDD
  */
 router.get("/test_db", async (req, res) => {
