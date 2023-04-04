@@ -27,6 +27,11 @@ Plantilla.datosDescargadosNulos = {
     fecha: ""
 }
 
+/// Nombre de los campos del formulario para editar una persona
+Plantilla.form = {
+    NOMBRE: "form-persona-nombre",
+}
+
 Plantilla.plantillaTags = {
     "ID": "### ID ###",
     "NOMBRE": "### NOMBRE ###",
@@ -414,9 +419,9 @@ Plantilla.imprimeUnJugador = function (datosDescargados) {
                             value="${datosDescargados.data.num_campeonatos}" 
                             name="numcampeonatos_jugador"/></td>
                     <td>
-                        <div><a href="" class="opcion-secundaria mostrar">Editar</a></div>
-                        <div><a href="" class="opcion-secundaria editar ocultar">Guardar</a></div>
-                        <div><a href="" class="opcion-secundaria editar ocultar">Cancelar</a></div>
+                        <div><a href="javascript:Plantilla.editar()" class="opcion-secundaria mostrar">Editar</a></div>
+                        <div><a href="javascript:Plantilla.guardar()" class="opcion-terciaria editar ocultar">Guardar</a></div>
+                        <div><a href="javascript:Plantilla.mostrar('${datosDescargados.ref['@ref'].id}')" class="opcion-terciaria editar ocultar">Cancelar</a></div>
                     </td>
                 </tr>
             </tbody>
@@ -426,6 +431,35 @@ Plantilla.imprimeUnJugador = function (datosDescargados) {
     }
     // Borro toda la info de Article y la sustituyo por la que me interesa
     Frontend.Article.actualizar("Mostrar un jugador", mensajeAMostrar)
+}
+
+/**
+ * Muestra las opciones que tiene el usuario cuando selecciona Editar
+ * @returns El propio objeto Personas, para concatenar llamadas
+ */
+Plantilla.opcionesMostrarOcultar = function (classname, mostrando) {
+    let opciones = document.getElementsByClassName(classname)
+    let claseQuitar = mostrando ? Frontend.CLASS_OCULTAR : Frontend.CLASS_MOSTRAR
+    let claseAniadir = !mostrando ? Frontend.CLASS_OCULTAR : Frontend.CLASS_MOSTRAR
+
+    for (let i = 0; i < opciones.length; ++i) {
+        Frontend.quitarClase(opciones[i], claseQuitar)
+            .aniadirClase(opciones[i], claseAniadir)
+    }
+    return this
+}
+
+/**
+ * Establece disable = habilitando en los campos editables
+ * @param {boolean} Deshabilitando Indica si queremos deshabilitar o habilitar los campos
+ * @returns El propio objeto Plantilla, para concatenar llamadas
+ */
+Plantilla.habilitarDeshabilitarCamposEditables = function (deshabilitando) {
+    deshabilitando = (typeof deshabilitando === "undefined" || deshabilitando === null) ? true : deshabilitando
+    for (let campo in Plantilla.form) {
+        document.getElementById(Plantilla.form[campo]).disabled = deshabilitando
+    }
+    return this
 }
 
 /**
@@ -469,4 +503,49 @@ Plantilla.procesarJugadores = function (opcion) {
  */
 Plantilla.mostrar = function (idJugador) {
     this.descargarRuta("/plantilla/getPorId/"+idJugador, this.imprimeUnJugador);
+}
+
+/**
+ * Función que permite modificar los datos de un jugador
+ */
+Plantilla.editar = function () {
+    this.opcionesMostrarOcultar("opcion-secundaria", false) // Despliega las nuevas opciones tras pulsar editar (tipo secundaria)
+    this.opcionesMostrarOcultar("opcion-terciaria editar", true) // Despliega las nuevas opciones tras pulsar editar (tipo terciaria)
+    Plantilla.habilitarDeshabilitarCamposEditables(false) // Habilita los campos editables
+}
+
+/**
+ * Función para guardar los nuevos datos de un jugador
+ */
+Plantilla.guardar = async function () {
+    try {
+        let url = Frontend.API_GATEWAY + "/plantilla/setNombre/"
+        let id_jugador = document.getElementById("form-persona-id").value
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'no-cors', // no-cors, cors, *same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'omit', // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrer: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify({
+                "id_jugador": id_jugador,
+                "nombre_jugador": document.getElementById("form-persona-nombre").value
+            }), // body data type must match "Content-Type" header
+        })
+        /*
+        Error: No procesa bien la respuesta devuelta
+        if (response) {
+            const jugador = await response.json()
+            alert(jugador)
+        }
+        */
+        Plantilla.mostrar(id_jugador)
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway " + error)
+        //console.error(error)
+    }
 }
