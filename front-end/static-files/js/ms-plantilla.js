@@ -78,6 +78,41 @@ Plantilla.tablaJugadores.pie = `        </tbody>
              </table>
              `;
 
+/// Formulario para añadir un nuevo jugador
+Plantilla.formularioAniadeJugador = `<form method='post' action='' id='formularioNuevoJugador'>
+    <table width="100%" class="listado-personas">
+        <thead>
+            <th width="10%">Nombre</th><th width="15%">Apellidos</th><th width="15%">Fecha Nacimiento</th>
+            <th width="20%">Años gana premios</th><th width="15%">Número campeonatos</th><th width="10%">Opciones</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" class="form-persona-elemento editable"
+                        id="form-persona-nombre" required value="Nombre" 
+                        name="nombre_jugador"/></td>
+                <td><input type="text" class="form-persona-elemento editable"
+                        id="form-persona-apellidos" value="Apellidos" 
+                        name="apellidos_jugador"/></td>
+                <td><input type="text" class="form-persona-elemento editable"
+                        id="form-persona-fechanac" required value="10/10/2010" 
+                        name="fechanac_jugador"/></td>
+                <td><input type="text" class="form-persona-elemento editable"
+                        id="form-persona-anioganapremio" required
+                        value="1900,1901" 
+                        name="anioganapremio_jugador"/></td>
+                <td><input type="number" class="form-persona-elemento editable"
+                        id="form-persona-numcampeonatos" required
+                        value="0" 
+                        name="numcampeonatos_jugador"/></td>
+                <td>
+                    <div><a href="javascript:Plantilla.aniadirJugador()" class="opcion-secundaria mostrar">Añadir</a></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+`;
+
 /**
  * Actualiza el cuerpo de la plantilla deseada con los datos del jugador que se le pasa
  * @param {String} Plantilla Cadena conteniendo HTML en la que se desea cambiar los campos de la plantilla por datos
@@ -544,6 +579,52 @@ Plantilla.guardar = async function () {
         }
         */
         Plantilla.mostrar(id_jugador)
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway " + error)
+        //console.error(error)
+    }
+}
+
+/**
+ * * Función para mostrar el formulario para crear un nuevo jugador
+ */
+Plantilla.aniadeJugador = function () {
+    // Borro toda la info de Article y la sustituyo por la que me interesa
+    Frontend.Article.actualizar("Añadir un jugador", Plantilla.formularioAniadeJugador)
+}
+
+/**
+ * Función para guardar los nuevos datos de un jugador recién creado
+ */
+Plantilla.aniadirJugador = async function () {
+    try {
+        let url = Frontend.API_GATEWAY + "/plantilla/nuevoJugador/"
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'no-cors', // no-cors, cors, *same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'omit', // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrer: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify({
+                "nombre_jugador": document.getElementById("form-persona-nombre").value,
+                "apellidos_jugador": document.getElementById("form-persona-apellidos").value,
+                "fechanac_jugador": document.getElementById("form-persona-fechanac").value,
+                "anioganapremio_jugador": document.getElementById("form-persona-anioganapremio").value,
+                "numcampeonatos_jugador": document.getElementById("form-persona-numcampeonatos").value
+            }), // body data type must match "Content-Type" header
+        })
+        /*
+        Error: No procesa bien la respuesta devuelta
+        if (response) {
+            const jugador = await response.json()
+            alert(jugador)
+        }
+        */
+        Plantilla.procesarJugadores();
     } catch (error) {
         alert("Error: No se han podido acceder al API Gateway " + error)
         //console.error(error)

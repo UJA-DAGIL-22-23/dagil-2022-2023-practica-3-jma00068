@@ -15,6 +15,7 @@ const TITULO_ACERCA_DE = "Plantilla Acerca de"
 const TITULO_NOMBRES = "Listado de nombres de los jugadores de Golf"
 const TITULO_LISTADO = "Listado de jugadores"
 const TITULO_MUESTRA_JUGADOR = "Mostrar un jugador"
+const TITULO_ANIADE_JUGADOR = "Añadir un jugador"
 
 const datosDescargadosPrueba = {
     mensaje: "Mensaje de prueba descargado",
@@ -361,6 +362,18 @@ describe("Plantilla.imprimeUnJugador: ", function () {
             expect(elementoContenido.innerHTML.search(jugadoresPrueba[2]) >= 0).toBeTrue()
         })
 })
+
+describe("Plantilla.aniadeJugador: ", function () {
+
+    it("muestra correctamente el formulario",
+        function () {
+            Plantilla.aniadeJugador()
+            expect(elementoTitulo.innerHTML).toBe(TITULO_ANIADE_JUGADOR)
+            expect(elementoContenido.innerHTML.search('formularioNuevoJugador') >= 0).toBeTrue()
+        })
+})
+
+
 
 /*
 IMPORTANTE
