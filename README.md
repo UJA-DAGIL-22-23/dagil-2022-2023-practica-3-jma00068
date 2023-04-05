@@ -81,3 +81,53 @@ El resultado obtenido tras la implementación de esta funcionalidad es:
 Una vez que hemos implementado todas las HU descritas para esta primera iteración el aspecto del tablero de Trello es el siguiente:
 
 ![Imagen tras implementar todas las HU](./capturas/iteracion1_final.png)
+
+## Iteración 2
+
+Tal y como hemos hecho anteriormente primero hay que escoger las HU que queremos implementar y describirlas en trello. La situación inicial justo antes de comenzar el desarrollo es la siguiente:
+
+![Imagen justo antes de iniciar el desarrollo](./capturas/iteracion2_inicio.png)
+
+En esta primera iteración he implementado las siguiente funcionalidades:
+
+1. Ver un listado con todos los datos de todos los jugadores/equipos ordenado por el campo del jugador/equipo que el usuario desee.
+
+2. Ver todos los datos de un determinado jugador/equipo.
+
+3. Modificar el nombre de un jugador/equipo.
+
+### Primera funcionalidad
+
+Para esta primera funcionalidad en mi caso he modificado una de las funciones que ya existían anteirormente, que se encarga de mostrar muchos jugadores.
+
+La diferencia es que he añadido un parámetro el cuál me permite indicar por el cuál podemos ordenar los datos y justo antes de mostrarlos se ordenan.
+
+El resultado obtenido tras la implementación de esta funcionalidad es:
+
+![Imagen tras modificar ordenar por campo](./capturas/ordenaPorCampo.png)
+
+### Segunda funcionalidad
+
+Para mostrar un jugador en concreto llamo a una función con el id del jugador el cuál se muestra en forma de formulario. Esto me permite posteriormente hacer peticiones de tipo post.
+
+El resultado obtenido tras la implementación de esta funcionalidad es:
+
+![Imagen tras mostrar datos de un jugador](./capturas/muestraJugador.png)
+
+### Tercera funcionalidad
+
+Una vez implementada la funcionalidad anterior, ahora intentaremos añadir la funcionalidad para que se pueda editar el nombre del jugador en concreto.
+
+Para ello en mi caso al pulsar el botoón de editar se modifica dinamicamente el html para que aparecan los correspondientes botones de guardar/cancelar y el campo editable del nombre. Una vez editado si se pulsa el botón guardar se hará una petición post (gracias a que está en un formulario) y se guardarán dichos datos.
+
+**Importante**: Los test de las funciones utilizadas para implementar esta funcionalidad no he conseguido hacerlos, ya que hacen llamadas al propio DOM. Intentaré añadirlos para futuras iteraciones.
+
+El resultado obtenido tras la implementación de esta funcionalidad es:
+
+![Imagen tras pulsar botón editar jugador](./capturas/editarNombreJugador.png)
+
+### Finalización
+
+Una vez que hemos implementado todas las HU descritas para esta segunda iteración el aspecto del tablero de Trello es el siguiente:
+
+![Imagen tras implementar todas las HU](./capturas/iteracion2_final.png)
