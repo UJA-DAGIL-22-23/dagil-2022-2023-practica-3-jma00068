@@ -17,7 +17,9 @@ Captura de pantalla de la colección creada en Fauna:
 ![Imagen de los datos metidos en la colección creada](./capturas/coleccion_fauna.png)
 
 ### Realizado por Jesús Manzano Álvarez
+
 Estudiante de Informática de la Universidad de Jaén, de la asignatura Desarrollo Ágil.
+
 * **Correo**: jma00068@red.ujaen.es
 * **GitHub**: https://github.com/jma00068/
 * **Trello**: https://trello.com/jesusmanzanoalvarez
