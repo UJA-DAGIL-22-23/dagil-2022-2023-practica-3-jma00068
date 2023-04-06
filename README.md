@@ -131,3 +131,43 @@ El resultado obtenido tras la implementación de esta funcionalidad es:
 Una vez que hemos implementado todas las HU descritas para esta segunda iteración el aspecto del tablero de Trello es el siguiente:
 
 ![Imagen tras implementar todas las HU](./capturas/iteracion2_final.png)
+
+## Iteración 3
+
+Al igual que anteriormente primero hay que escoger las HU que queremos implementar y describirlas en trello. La situación inicial justo antes de comenzar el desarrollo es la siguiente:
+
+![Imagen justo antes de iniciar el desarrollo](./capturas/iteracion3_inicio.png)
+
+En esta primera iteración he implementado las siguiente funcionalidades:
+
+1. Añadir un nuevo jugador/equipo.
+
+2. Eliminar un jugador/equipo.
+
+### Primera funcionalidad
+
+Para esta primera funcionalidad en mi caso he añadido un nueva opción llamada "Añadir jugaador" en la cuál se despliega un formulario que puede ser rellenado con los datos del jugador.
+
+Una vez indicados todos los datos pulsaremos el botón añadir, el cuál hará un petión post al backend para que se el jugador sea añadido en la base de datos.
+
+El resultado obtenido tras la implementación de esta funcionalidad es:
+
+![Imagen tras añadir opción para crear nuevo jugador](./capturas/aniadeJugador.png)
+
+### Segunda funcionalidad
+
+Para eliminar un jugador en el apartado de mostrar un jugador he añadido un nuevo jugador que permite eliminar dicho jugador.
+
+Para ello hace una petición post con el id del jugador y este es eliminado de la base de datos.
+
+El resultado obtenido tras la implementación de esta funcionalidad es:
+
+![Imagen tras añadir opción para eliminar un jugador](./capturas/eliminaJugador.png)
+
+### Finalización
+
+**Importante**: Los test creados en el backend para probar dichas funcionalidades se encuentran comentadas, ya que al modificar el número de jugadores provoca que otros test fallen.
+
+Una vez que hemos implementado todas las HU descritas para esta tercera iteración el aspecto del tablero de Trello es el siguiente:
+
+![Imagen tras implementar todas las HU](./capturas/iteracion3_final.png)
