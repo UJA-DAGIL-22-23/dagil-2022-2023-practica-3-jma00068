@@ -123,6 +123,33 @@ describe('Servidor PLANTILLA:', () => {
         );
     });
 
+    /*
+      IMPORTANTE: Este test introduce un nuevo jugador en la base de datos por tanto, está comentado para que no provoque errores
+      en el resto de test definidos
+
+    it('Devuelve nuevo jugador creado mediante nuevoJugador', (done) => {
+      const jugador = {
+        nombre_jugador: "Prueba",
+        apellidos_jugador: "Prueba",
+        fechanac_jugador: "14/3/1942",
+        anioganapremio_jugador: "1991,2006",
+        numcampeonatos_jugador: 3
+      };
+      supertest(app)
+        .post('/nuevoJugador')
+        .send(jugador)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          //console.log( "Server-spec , /setNombre res.body", res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.hasOwnProperty('nombre'));
+          assert(res.body.data.nombre === "Prueba");
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
+    });
+    */
+
   })  
 });
 

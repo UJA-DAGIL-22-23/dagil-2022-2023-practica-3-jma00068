@@ -83,6 +83,17 @@ router.post("/setNombre", async (req, res) => {
 });
 
 /**
+ * Crea un nuevo jugador 
+ */
+router.post("/nuevoJugador", async (req, res) => {
+    try {
+        await callbacks.nuevoJugador(req, res)
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+/**
  * Test de conexión a la BBDD
  */
 router.get("/test_db", async (req, res) => {
