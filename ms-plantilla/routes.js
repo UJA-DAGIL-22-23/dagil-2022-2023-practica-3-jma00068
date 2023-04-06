@@ -94,6 +94,17 @@ router.post("/nuevoJugador", async (req, res) => {
 });
 
 /**
+ * Elimina el jugador con el id indicado
+ */
+router.post("/eliminaJugador", async (req, res) => {
+    try {
+        await callbacks.eliminaJugador(req, res)
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+/**
  * Test de conexión a la BBDD
  */
 router.get("/test_db", async (req, res) => {

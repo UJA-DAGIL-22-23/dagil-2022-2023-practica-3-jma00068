@@ -150,6 +150,23 @@ describe('Servidor PLANTILLA:', () => {
     });
     */
 
+    /*
+      IMPORTANTE: Este test elimina un jugador en la base de datos por tanto, está comentado para que no provoque errores
+      en el resto de test definidos
+
+    it('Elimina jugado mediante eliminaJugador', (done) => {
+      const jugador = {
+        id_jugador: '358541978933133588'
+      };
+      supertest(app)
+        .post('/eliminaJugador')
+        .send(jugador)
+        .expect(200)
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
+    });
+    */
+
   })  
 });
 

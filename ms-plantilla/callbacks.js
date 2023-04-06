@@ -170,7 +170,7 @@ const CB_MODEL_SELECTS = {
     * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
     */
     nuevoJugador: async (req, res) => {
-        //console.log("setNombre req.body", req) // req.body contiene todos los parámetros de la llamada
+        //console.log("nuevoJugador req.body", req) // req.body contiene todos los parámetros de la llamada
         try {
             let valorDevuelto = {}
             // Hay que comprobar Object.keys(req.body).length para saber si req.body es objeto "normal" o con problemas
@@ -198,6 +198,40 @@ const CB_MODEL_SELECTS = {
                             num_campeonatos: data.numcampeonatos_jugador
                         } 
                     }
+                )
+            )
+                .then((ret) => {
+                    valorDevuelto = ret
+                    //console.log("Valor devuelto ", valorDevuelto)
+                    CORS(res)
+                        .status(200)
+                        .header( 'Content-Type', 'application/json' )
+                        .json(valorDevuelto)
+                })
+
+        } catch (error) {
+            CORS(res).status(500).json({ error: error.description })
+        }
+    },
+
+    /**
+    * Método para eliminar el jugador con el id indicado
+    * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
+    * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+    */
+    eliminaJugador: async (req, res) => {
+        //console.log("eliminaJugador req.body", req) // req.body contiene todos los parámetros de la llamada
+        try {
+            let valorDevuelto = {}
+            // Hay que comprobar Object.keys(req.body).length para saber si req.body es objeto "normal" o con problemas
+            // Cuando la llamada viene de un formulario, se crea una sola entrada, con toda la info en una sola key y el value está vacío.
+            // Cuando la llamada se hace con un objeto (como se hace desde el server-spec.js), el value No está vacío.
+            let data = (Object.values(req.body)[0] === '') ? JSON.parse(Object.keys(req.body)[0]) : req.body
+            // console.log("SETTODO data es", data)
+
+            let jugadorModificado = await client.query(
+                q.Delete(
+                    q.Ref(q.Collection(COLLECTION), data.id_jugador)
                 )
             )
                 .then((ret) => {
