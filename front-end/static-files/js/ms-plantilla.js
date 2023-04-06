@@ -455,6 +455,7 @@ Plantilla.imprimeUnJugador = function (datosDescargados) {
                             name="numcampeonatos_jugador"/></td>
                     <td>
                         <div><a href="javascript:Plantilla.editar()" class="opcion-secundaria mostrar">Editar</a></div>
+                        <div><a href="javascript:Plantilla.eliminar()" class="opcion-secundaria mostrar">Eliminar</a></div>
                         <div><a href="javascript:Plantilla.guardar()" class="opcion-terciaria editar ocultar">Guardar</a></div>
                         <div><a href="javascript:Plantilla.mostrar('${datosDescargados.ref['@ref'].id}')" class="opcion-terciaria editar ocultar">Cancelar</a></div>
                     </td>
@@ -615,6 +616,41 @@ Plantilla.aniadirJugador = async function () {
                 "fechanac_jugador": document.getElementById("form-persona-fechanac").value,
                 "anioganapremio_jugador": document.getElementById("form-persona-anioganapremio").value,
                 "numcampeonatos_jugador": document.getElementById("form-persona-numcampeonatos").value
+            }), // body data type must match "Content-Type" header
+        })
+        /*
+        Error: No procesa bien la respuesta devuelta
+        if (response) {
+            const jugador = await response.json()
+            alert(jugador)
+        }
+        */
+        Plantilla.procesarJugadores();
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway " + error)
+        //console.error(error)
+    }
+}
+
+/**
+ * Función para eliminar un jugador con el id indicado
+ */
+Plantilla.eliminar = async function () {
+    try {
+        let url = Frontend.API_GATEWAY + "/plantilla/eliminaJugador/"
+        let id_jugador = document.getElementById("form-persona-id").value
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'no-cors', // no-cors, cors, *same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'omit', // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrer: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify({
+                "id_jugador": id_jugador
             }), // body data type must match "Content-Type" header
         })
         /*

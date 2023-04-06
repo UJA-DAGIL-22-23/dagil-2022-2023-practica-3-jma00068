@@ -35,13 +35,10 @@
 .opcion-secundaria, .opcion-terciaria {
     border: 2px solid rgba(100, 100, 100, 0.5);
     padding: .1em;
+    margin: 3px;
     text-decoration: none;
     background-color: rgba(224, 224, 224, 0.355);
     color: inherit;
-}
-
-.opcion-terciaria {
-    margin: 5px;
 }
 
 .opcion-principal:hover, 
