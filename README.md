@@ -168,7 +168,7 @@ El resultado obtenido tras la implementación de esta funcionalidad es:
 
 ### Finalización
 
-**Importante**: Los test creados en el backend para probar dichas funcionalidades se encuentran comentadas, ya que al modificar el número de jugadores provoca que otros test fallen.
+**Importante**: Los test creados en el backend para probar dichas funcionalidades se encuentran comentadas, ya que al modificar el número de jugadores provoca que otros test fallen. Además, algunos de los test que no fueron añadidos en la anterior iteración han sido añadidos en esta.
 
 Una vez que hemos implementado todas las HU descritas para esta tercera iteración el aspecto del tablero de Trello es el siguiente:
 
